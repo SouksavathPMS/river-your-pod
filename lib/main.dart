@@ -36,21 +36,30 @@ class MyHomePage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Yes or No'.toUpperCase()),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+              onPressed: () => ref.invalidate(yesOrNoStateNotifierProvider),
+              icon: const Text("Clear all"),
+            ),
+          )
+        ],
       ),
       body: Consumer(
         builder: (context, ref, child) {
           final yesOrNos = ref.watch(filteredYesOrNosProvider);
-          final yesOrNoFilter = ref.watch(yesOrNofilterStateProvider);
+          final yesOrNoFilter = ref.watch(filterStateProvider);
           return Column(
             children: [
               ChipsChoice<YesOrNo>.single(
                 value: yesOrNoFilter,
                 onChanged: (val) {
-                  final currentFilter = ref.read(yesOrNofilterStateProvider);
+                  final currentFilter = ref.read(filterStateProvider);
                   if (val == currentFilter) {
                     return;
                   }
-                  ref.read(yesOrNofilterStateProvider.notifier).state = val;
+                  ref.read(filterStateProvider.notifier).state = val;
                 },
                 choiceItems: C2Choice.listFrom<YesOrNo, String>(
                   source:
@@ -63,40 +72,45 @@ class MyHomePage extends ConsumerWidget {
                   ? const Center(
                       child: Text("There is no Yes or no start to random now!"),
                     )
-                  : GridView.builder(
-                      padding: const EdgeInsets.symmetric(horizontal: 14),
-                      shrinkWrap: true,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, // 2 columns
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
+                  : Expanded(
+                      child: GridView.builder(
+                        padding: const EdgeInsets.symmetric(horizontal: 14),
+                        shrinkWrap: true,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2, // 2 columns
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                        ),
+                        itemCount: yesOrNos.length,
+                        itemBuilder: (context, index) {
+                          final yesOrNo = yesOrNos.elementAt(index);
+                          return GridTile(
+                            child: Image.network(
+                              yesOrNo.image,
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                if (loadingProgress == null) {
+                                  return child;
+                                } else {
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      value:
+                                          loadingProgress.expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                              : null,
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
+                          );
+                        },
                       ),
-                      itemCount: yesOrNos.length,
-                      itemBuilder: (context, index) {
-                        final yesOrNo = yesOrNos.elementAt(index);
-                        return GridTile(
-                          child: Image.network(
-                            yesOrNo.image,
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) {
-                                return child;
-                              } else {
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                        : null,
-                                  ),
-                                );
-                              }
-                            },
-                          ),
-                        );
-                      },
                     ),
             ],
           );

@@ -4,11 +4,11 @@ import 'package:river_your_pod/models/yes_or_no_model.dart';
 import 'package:river_your_pod/notifiers/yes_or_no_state_notifier.dart';
 import 'package:river_your_pod/state/yes_or_no_state.dart';
 
-final yesOrNofilterStateProvider = StateProvider<YesOrNo>((ref) => YesOrNo.all);
+final filterStateProvider = StateProvider<YesOrNo>((ref) => YesOrNo.all);
 
 final filteredYesOrNosProvider = Provider<Iterable<YesOrNoModel>>((ref) {
   final yesOrNos = ref.watch(yesOrNoStateNotifierProvider).yesOrNos;
-  final yesOrNoFilter = ref.watch(yesOrNofilterStateProvider);
+  final yesOrNoFilter = ref.watch(filterStateProvider);
   switch (yesOrNoFilter) {
     case YesOrNo.all:
       return yesOrNos;

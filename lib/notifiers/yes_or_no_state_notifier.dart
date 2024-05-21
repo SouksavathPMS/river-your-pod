@@ -21,7 +21,6 @@ class YesOrNoStateNotifier extends StateNotifier<YesOrNoState> {
       final response = await _dio.get("https://yesno.wtf/api");
       final ourNewYesOrNo = YesOrNoModel.fromJson(response.data);
       state = state.copyWith(yesOrNos: [ourNewYesOrNo, ...state.yesOrNos]);
-      log(state.yesOrNos.toList().toString());
     } catch (e) {
       state = state.copyWith(errorText: e.toString());
     } finally {
