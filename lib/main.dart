@@ -119,7 +119,6 @@ class MyHomePage extends ConsumerWidget {
       floatingActionButton: Consumer(
         builder: (context, ref, child) {
           final isLoading = ref.watch(yesOrNoStateNotifierProvider).isLoading;
-
           return FloatingActionButton(
             onPressed: isLoading
                 ? null
