@@ -28,11 +28,52 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends ConsumerWidget {
+class MyHomePage extends ConsumerStatefulWidget {
   const MyHomePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  MyHomePageState createState() => MyHomePageState();
+}
+
+class MyHomePageState extends ConsumerState<MyHomePage> {
+  @override
+  void initState() {
+    ref.listen(
+      yesOrNoStateNotifierProvider,
+      (previousState, nextState) {
+        final previousLoading = previousState?.isLoading;
+        final nextLoading = nextState.isLoading;
+        final previousErrorText = previousState?.errorText;
+        final nextErrorText = nextState.errorText;
+        if (previousLoading != nextLoading) {
+          // Implement some behavior such as loading dioalog
+        }
+        if (previousErrorText != nextErrorText) {
+          // Implement some behavior such as showing error snackbar
+        }
+      },
+    );
+    ref.listen(
+      yesOrNoStateNotifierProvider.select((state) => state.isLoading),
+      (previousLoading, nextLoading) {
+        if (previousLoading != nextLoading) {
+          // Implement some behavior such as loading dioalog
+        }
+      },
+    );
+    ref.listen(
+      yesOrNoStateNotifierProvider.select((state) => state.errorText),
+      (previousErrorText, nextErrorText) {
+        if (previousErrorText != nextErrorText) {
+          // Implement some behavior such as showing error snackbar
+        }
+      },
+    );
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Yes or No'.toUpperCase()),
