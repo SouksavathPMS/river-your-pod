@@ -1,8 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:river_your_pod/enums/yes_or_no.dart';
-import 'package:river_your_pod/models/yes_or_no_model.dart';
-import 'package:river_your_pod/notifiers/yes_or_no_state_notifier.dart';
-import 'package:river_your_pod/state/yes_or_no_state.dart';
+
+import '../enums/yes_or_no.dart';
+import '../models/yes_or_no_model.dart';
+import '../notifiers/yes_or_no_state_notifier.dart';
+import '../state/yes_or_no_state.dart';
 
 final filterStateProvider = StateProvider<YesOrNo>((ref) => YesOrNo.all);
 

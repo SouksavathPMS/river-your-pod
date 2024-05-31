@@ -1,8 +1,9 @@
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:river_your_pod/enums/yes_or_no.dart';
-import 'package:river_your_pod/providers/yes_or_no_state_notifier_provider.dart';
+
+import 'enums/yes_or_no.dart';
+import 'providers/yes_or_no_state_notifier_provider.dart';
 
 void main() {
   runApp(
@@ -28,16 +29,11 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends ConsumerStatefulWidget {
+class MyHomePage extends ConsumerWidget {
   const MyHomePage({super.key});
 
   @override
-  MyHomePageState createState() => MyHomePageState();
-}
-
-class MyHomePageState extends ConsumerState<MyHomePage> {
-  @override
-  void initState() {
+  Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(
       yesOrNoStateNotifierProvider,
       (previousState, nextState) {
@@ -69,11 +65,6 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
         }
       },
     );
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Yes or No'.toUpperCase()),

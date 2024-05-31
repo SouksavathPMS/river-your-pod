@@ -2,8 +2,9 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:river_your_pod/models/yes_or_no_model.dart';
-import 'package:river_your_pod/state/yes_or_no_state.dart';
+
+import '../models/yes_or_no_model.dart';
+import '../state/yes_or_no_state.dart';
 
 class YesOrNoStateNotifier extends StateNotifier<YesOrNoState> {
   final Ref ref;
